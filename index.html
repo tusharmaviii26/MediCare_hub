@@ -561,12 +561,6 @@
             transform: scale(1.05);
             box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
         }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
         .avatar .role-icon {
             position: absolute;
             bottom: -2px;
@@ -1256,15 +1250,17 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
             transition: transform 0.3s;
             border: 2px solid var(--border-color);
+            background: linear-gradient(135deg, var(--primary-100), var(--secondary-100));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-700);
         }
         .doctor-card:hover .doctor-avatar {
             transform: scale(1.05);
             border-color: var(--primary-400);
-        }
-        .doctor-card .doctor-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
         .doctor-card h4 {
             font-family: var(--font-heading);
@@ -1354,12 +1350,6 @@
             font-weight: 700;
             font-size: 1rem;
             font-family: var(--font-heading);
-        }
-        .appointment-info .appt-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
         }
         .appointment-info .appt-details h5 {
             font-family: var(--font-heading);
@@ -2272,7 +2262,6 @@
                 </button>
                 <div class="avatar-wrapper" id="avatarWrapper" style="display:none;">
                     <div class="avatar" id="userAvatar" title="User">
-                        <img id="avatarImage" src="" alt="Avatar" style="display:none;" />
                         <span id="avatarInitials"></span>
                         <span class="role-icon" id="avatarRoleIcon"><i class="fas fa-user"></i></span>
                     </div>
@@ -2558,22 +2547,8 @@
         const API_KEY = 'hk_mqwbt4ig8178aeda464acb58002819632335558f8fd6da503daf5b32dcbb7df6ec1199ed';
 
         // ============================================================
-        // DATA — Static fallback (Indian-themed avatars)
+        // DATA — Static fallback (no avatar URLs)
         // ============================================================
-        const avatarSet = [1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
-        const allAvatarIds = [...avatarSet, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110];
-
-        function getRandomAvatarUrl() {
-            const id = allAvatarIds[Math.floor(Math.random() * allAvatarIds.length)];
-            return `https://i.pravatar.cc/150?img=${id}`;
-        }
-
-        function getPatientAvatar(userId) {
-            const index = (userId - 1) % allAvatarIds.length;
-            return `https://i.pravatar.cc/150?img=${allAvatarIds[index]}`;
-        }
-
-        // Static fallback doctors (used when API fails)
         function getStaticDoctors() {
             return usersData.filter(u => u.role === 'doctor').map(u => ({
                 id: u.id,
@@ -2583,7 +2558,6 @@
                 experience: u.experience || 5,
                 fee: u.fee || 1000,
                 available: u.available !== false,
-                avatarUrl: u.avatarUrl || getDoctorAvatar(u.id),
                 rating: (4.2 + Math.random() * 0.7).toFixed(1),
                 reviews: Math.floor(50 + Math.random() * 150)
             }));
@@ -2598,8 +2572,7 @@
             phone: '+91 98765 43210',
             dob: '1990-05-15',
             gender: 'Female',
-            medicalHistory: 'Allergic to penicillin.',
-            avatarUrl: getPatientAvatar(1)
+            medicalHistory: 'Allergic to penicillin.'
         }, {
             id: 2,
             name: 'Dr. Ananya Sharma',
@@ -2610,15 +2583,13 @@
             location: 'Mumbai',
             experience: 12,
             fee: 1500,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=2'
+            available: true
         }, {
             id: 3,
             name: 'Admin User',
             email: 'admin@mediconnect.com',
             password: 'password123',
-            role: 'admin',
-            avatarUrl: 'https://i.pravatar.cc/150?img=3'
+            role: 'admin'
         }, {
             id: 4,
             name: 'Dr. Vikram Reddy',
@@ -2629,8 +2600,7 @@
             location: 'Hyderabad',
             experience: 10,
             fee: 1800,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=4'
+            available: true
         }, {
             id: 5,
             name: 'Dr. Priya Patel',
@@ -2641,8 +2611,7 @@
             location: 'Delhi',
             experience: 8,
             fee: 1200,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=5'
+            available: true
         }, {
             id: 6,
             name: 'Patient Two',
@@ -2652,8 +2621,7 @@
             phone: '+91 87654 32109',
             dob: '1985-08-22',
             gender: 'Male',
-            medicalHistory: 'Hypertension.',
-            avatarUrl: getPatientAvatar(6)
+            medicalHistory: 'Hypertension.'
         }, {
             id: 7,
             name: 'Dr. Meera Krishnan',
@@ -2664,8 +2632,7 @@
             location: 'Chennai',
             experience: 11,
             fee: 1400,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=7'
+            available: true
         }, {
             id: 8,
             name: 'Dr. Rohan Desai',
@@ -2676,8 +2643,7 @@
             location: 'Pune',
             experience: 7,
             fee: 1300,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=8'
+            available: true
         }, {
             id: 9,
             name: 'Dr. Sunita Verma',
@@ -2688,8 +2654,7 @@
             location: 'Delhi',
             experience: 9,
             fee: 1700,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=9'
+            available: true
         }, {
             id: 10,
             name: 'Dr. Karthik Rao',
@@ -2700,8 +2665,7 @@
             location: 'Mumbai',
             experience: 6,
             fee: 1100,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=10'
+            available: true
         }, {
             id: 11,
             name: 'Dr. Sneha Joshi',
@@ -2712,8 +2676,7 @@
             location: 'Kolkata',
             experience: 8,
             fee: 1250,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=11'
+            available: true
         }, {
             id: 12,
             name: 'Dr. Manish Gupta',
@@ -2724,32 +2687,10 @@
             location: 'Ahmedabad',
             experience: 7,
             fee: 1150,
-            available: true,
-            avatarUrl: 'https://i.pravatar.cc/150?img=12'
+            available: true
         }];
 
-        const doctorAvatarMap = {
-            2: 'https://i.pravatar.cc/150?img=2',
-            4: 'https://i.pravatar.cc/150?img=4',
-            5: 'https://i.pravatar.cc/150?img=5',
-            7: 'https://i.pravatar.cc/150?img=7',
-            8: 'https://i.pravatar.cc/150?img=8',
-            9: 'https://i.pravatar.cc/150?img=9',
-            10: 'https://i.pravatar.cc/150?img=10',
-            11: 'https://i.pravatar.cc/150?img=11',
-            12: 'https://i.pravatar.cc/150?img=12'
-        };
-
-        function getDoctorAvatar(userId) { return doctorAvatarMap[userId] || 'https://i.pravatar.cc/150?img=11'; }
-
-        function getUserAvatar(userId) {
-            const user = usersData.find(u => u.id === userId);
-            if (!user) return '';
-            return user.avatarUrl || (user.role === 'patient' ? getPatientAvatar(userId) : getDoctorAvatar(userId));
-        }
-
         function getAllDoctors() {
-            // Return static data from usersData (fallback)
             return usersData.filter(u => u.role === 'doctor').map(u => ({
                 id: u.id,
                 name: u.name,
@@ -2758,7 +2699,6 @@
                 experience: u.experience,
                 fee: u.fee,
                 available: u.available,
-                avatarUrl: u.avatarUrl || getDoctorAvatar(u.id),
                 rating: (4.2 + Math.random() * 0.7).toFixed(1),
                 reviews: Math.floor(50 + Math.random() * 150)
             }));
@@ -2769,11 +2709,6 @@
         function getPatientNameById(id) {
             const u = usersData.find(p => p.id === id && p.role === 'patient');
             return u ? u.name : 'Unknown Patient';
-        }
-
-        function getPatientAvatarUrl(id) {
-            const u = usersData.find(p => p.id === id && p.role === 'patient');
-            return u ? (u.avatarUrl || getPatientAvatar(id)) : '';
         }
 
         function getDoctorName(id) {
@@ -2858,8 +2793,6 @@
                     throw new Error(`API error: ${response.status}`);
                 }
                 const data = await response.json();
-                // Map the response to our expected structure.
-                // Assume API returns { doctors: [...] } or an array directly.
                 let doctors = data.doctors || data || [];
                 if (!Array.isArray(doctors)) doctors = [];
                 return doctors.map(doc => ({
@@ -2870,7 +2803,6 @@
                     experience: doc.experience || doc.yearsOfExperience || 5,
                     fee: doc.fee || doc.consultationFee || 1000,
                     available: doc.available !== undefined ? doc.available : true,
-                    avatarUrl: doc.avatarUrl || doc.profilePicture || getRandomAvatarUrl(),
                     rating: doc.rating || (4 + Math.random() * 0.9).toFixed(1),
                     reviews: doc.reviews || Math.floor(50 + Math.random() * 150)
                 }));
@@ -2892,7 +2824,6 @@
         let quoteIndex = 0,
             footerQuoteIndex = 0;
         let editingDoctorId = null;
-        // Cached doctor list from API
         let cachedDoctors = null;
         let isLoading = false;
 
@@ -2931,7 +2862,6 @@
             heroSearchBtn: $('#heroSearchBtn'),
             fabBtn: $('#fabBtn'),
             avatarWrapper: $('#avatarWrapper'),
-            avatarImage: $('#avatarImage'),
             avatarInitials: $('#avatarInitials'),
             avatarRoleIcon: $('#avatarRoleIcon'),
             dropdownMenu: $('#dropdownMenu'),
@@ -2945,7 +2875,6 @@
             userAvatar: $('#userAvatar'),
             brandLink: $('#brandLink'),
             mobileToggle: $('#mobileToggle'),
-            doctorsGrid: $('#doctorsGrid'),
         };
 
         // ============================================================
@@ -2978,6 +2907,11 @@
         function getPrescriptionsForDoctor(id) { return prescriptionsData.filter(p => p.doctorId === id); }
 
         function getPaymentsForPatient(id) { return paymentsData.filter(p => p.patientId === id); }
+
+        function getInitials(name) {
+            if (!name) return '?';
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        }
 
         // ============================================================
         // TOAST
@@ -3034,17 +2968,16 @@
         function signup(name, email, password, role) {
             if (!name || !email || !password || !email.includes('@')) { showToast('Invalid data.', 'error'); return false; }
             if (usersData.find(u => u.email === email)) { showToast('Email exists.', 'error'); return false; }
-            const avatarUrl = getRandomAvatarUrl();
             const newUser = {
                 id: generateId(),
                 name,
                 email,
                 password,
                 role,
-                ...(role === 'patient' ? { phone: '', dob: '', gender: '', medicalHistory: '', avatarUrl } : {}),
+                ...(role === 'patient' ? { phone: '', dob: '', gender: '', medicalHistory: '' } : {}),
                 ...(role === 'doctor' ? { specialty: 'General Medicine', location: 'Mumbai', experience: 5, fee: 1000,
-                        available: true, avatarUrl } : {}),
-                ...(role === 'admin' ? { avatarUrl } : {})
+                        available: true } : {}),
+                ...(role === 'admin' ? {} : {})
             };
             usersData.push(newUser);
             currentUser = newUser;
@@ -3077,17 +3010,7 @@
                 dom.loginBtn.style.display = 'none';
                 dom.signupBtn.style.display = 'none';
                 dom.avatarWrapper.style.display = 'inline-flex';
-                const initials = currentUser.name.split(' ').map(n => n[0]).join('');
-                dom.avatarInitials.textContent = initials;
-                const av = getUserAvatar(currentUser.id);
-                if (av) {
-                    dom.avatarImage.src = av;
-                    dom.avatarImage.style.display = 'block';
-                    dom.avatarInitials.style.display = 'none';
-                } else {
-                    dom.avatarImage.style.display = 'none';
-                    dom.avatarInitials.style.display = 'block';
-                }
+                dom.avatarInitials.textContent = getInitials(currentUser.name);
                 const role = currentUser.role;
                 let ic = 'fa-user',
                     rc = '';
@@ -3289,13 +3212,12 @@
         // DOCTOR FETCH HELPER
         // ============================================================
         async function loadDoctorsForGrid(gridElement, filters = {}, isPatient = false) {
-            // Show loading spinner
             if (gridElement) {
                 gridElement.innerHTML = `<div class="loading-container"><div class="spinner"></div></div>`;
             }
 
             const doctors = await fetchDoctorsFromAPI(filters);
-            cachedDoctors = doctors; // cache for later
+            cachedDoctors = doctors;
 
             if (!gridElement) return doctors;
 
@@ -3304,11 +3226,10 @@
                 return doctors;
             }
 
-            // Render cards
             const html = doctors.map(d => `
                 <div class="card doctor-card"><div class="card-body">
                   <div style="display:flex;align-items:center;gap:16px;">
-                    <div class="doctor-avatar"><img src="${d.avatarUrl}" alt="${d.name}" loading="lazy" /></div>
+                    <div class="doctor-avatar">${getInitials(d.name)}</div>
                     <div><h4>${d.name}</h4><div class="specialty">${d.specialty}</div></div>
                   </div>
                   <div class="rating"><i class="fas fa-star"></i> ${d.rating} <span>(${d.reviews} reviews)</span></div>
@@ -3333,7 +3254,6 @@
             `).join('');
             gridElement.innerHTML = html;
 
-            // Attach event listeners
             gridElement.querySelectorAll('.book-doctor-btn').forEach(b => {
                 b.addEventListener('click', () => {
                     const id = parseInt(b.dataset.id);
@@ -3380,7 +3300,6 @@
         }
 
         function renderPatientDoctors(el) {
-            // Get search filters from search bar
             const search = dom.searchInput.value.trim();
             const specialty = dom.specialtySelect.value;
             const location = dom.locationSelect.value;
@@ -3389,7 +3308,6 @@
             if (location) filters.location = location;
             if (search) filters.search = search;
 
-            // This will be async – we need to show loading
             el.innerHTML = `<div class="section-header"><div><h2 class="section-title">👨‍⚕️ Available Doctors</h2><p class="section-subtitle">Find the right specialist</p></div></div>
             <div class="doctors-grid" id="patientDoctorsGrid"><div class="loading-container"><div class="spinner"></div></div></div>`;
             const grid = el.querySelector('#patientDoctorsGrid');
@@ -3401,7 +3319,7 @@
             const appts = getAppointmentsForPatient(pid);
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">📅 Your Appointments</h2><p class="section-subtitle">Upcoming and past</p></div><button class="btn btn-primary btn-sm" id="patientNewApptBtn"><i class="fas fa-plus"></i> New Appointment</button></div>
-            <div id="patientAppointmentsList">${appts.length===0?`<div style="text-align:center;padding:40px 0;color:var(--text-muted);"><i class="fas fa-calendar-alt" style="font-size:2.4rem;display:block;margin-bottom:12px;opacity:0.4;"></i><p>No appointments yet.</p></div>`:appts.sort((a,b)=>a.status==='upcoming'?-1:1).map(a=>{const p=paymentsData.find(p=>p.appointmentId===a.id);return `<div class="appointment-item"><div class="appointment-info"><div class="appt-avatar">${getPatientAvatarUrl(a.patientId)?`<img src="${getPatientAvatarUrl(a.patientId)}" alt="${getPatientNameById(a.patientId)}" loading="lazy" />`:getPatientNameById(a.patientId).split(' ').map(n=>n[0]).join('')}</div><div class="appt-details"><h5>${getDoctorName(a.doctorId)} — ${getDoctorSpecialty(a.doctorId)}</h5><p><i class="far fa-calendar-alt"></i> ${formatDate(a.date)} at ${formatTime(a.time)}</p><p style="font-size:0.8rem;color:var(--text-muted);">${a.reason}</p>${p?`<p style="font-size:0.8rem;color:var(--text-muted);"><i class="fas fa-credit-card"></i> Payment: ${p.status==='paid'?'✅ Paid':'⏳ Pending'}</p>`:''}</div></div><div class="appointment-status">${getStatusBadge(a.status)}${a.status==='upcoming'?`<button class="btn btn-danger btn-sm cancel-appt-btn" data-id="${a.id}"><i class="fas fa-times"></i> Cancel</button>`:''}</div></div>`}).join('')}</div>`;
+            <div id="patientAppointmentsList">${appts.length===0?`<div style="text-align:center;padding:40px 0;color:var(--text-muted);"><i class="fas fa-calendar-alt" style="font-size:2.4rem;display:block;margin-bottom:12px;opacity:0.4;"></i><p>No appointments yet.</p></div>`:appts.sort((a,b)=>a.status==='upcoming'?-1:1).map(a=>{const p=paymentsData.find(p=>p.appointmentId===a.id);return `<div class="appointment-item"><div class="appointment-info"><div class="appt-avatar">${getInitials(getPatientNameById(a.patientId))}</div><div class="appt-details"><h5>${getDoctorName(a.doctorId)} — ${getDoctorSpecialty(a.doctorId)}</h5><p><i class="far fa-calendar-alt"></i> ${formatDate(a.date)} at ${formatTime(a.time)}</p><p style="font-size:0.8rem;color:var(--text-muted);">${a.reason}</p>${p?`<p style="font-size:0.8rem;color:var(--text-muted);"><i class="fas fa-credit-card"></i> Payment: ${p.status==='paid'?'✅ Paid':'⏳ Pending'}</p>`:''}</div></div><div class="appointment-status">${getStatusBadge(a.status)}${a.status==='upcoming'?`<button class="btn btn-danger btn-sm cancel-appt-btn" data-id="${a.id}"><i class="fas fa-times"></i> Cancel</button>`:''}</div></div>`}).join('')}</div>`;
             el.querySelector('#patientNewApptBtn')?.addEventListener('click', () => openBookingModal());
             el.querySelectorAll('.cancel-appt-btn').forEach(b => b.addEventListener('click', () => { const id = parseInt(b
                     .dataset.id); if (confirm('Cancel?')) { appointmentsData = appointmentsData.filter(a => a.id !==
@@ -3428,14 +3346,11 @@
 
         function renderPatientProfile(el) {
             const p = currentUser;
-            const av = getUserAvatar(p.id);
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">👤 My Profile</h2><p class="section-subtitle">Manage your personal information</p></div><button class="btn btn-secondary btn-sm" onclick="exitModule()"><i class="fas fa-sign-out-alt"></i> Exit Module</button></div>
             <div style="max-width:600px;background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border-color);padding:24px;">
               <div style="display:flex;align-items:center;gap:20px;margin-bottom:20px;">
-                <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid var(--border-color);background:linear-gradient(135deg,var(--primary-100),var(--secondary-100));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--primary-600);font-weight:700;">
-                  ${av?`<img src="${av}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" />`:p.name.split(' ').map(n=>n[0]).join('')}
-                </div>
+                <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid var(--border-color);background:linear-gradient(135deg,var(--primary-100),var(--secondary-100));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--primary-600);font-weight:700;">${getInitials(p.name)}</div>
                 <div><h3 style="font-family:var(--font-heading);">${p.name}</h3><p style="color:var(--text-muted);">${p.email}</p><span class="badge badge-primary">Patient</span></div>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div><strong>Phone</strong><br><span style="color:var(--text-muted);">${p.phone||'Not set'}</span></div><div><strong>DOB</strong><br><span style="color:var(--text-muted);">${p.dob||'Not set'}</span></div><div><strong>Gender</strong><br><span style="color:var(--text-muted);">${p.gender||'Not set'}</span></div><div><strong>Medical History</strong><br><span style="color:var(--text-muted);">${p.medicalHistory||'None'}</span></div></div>
@@ -3473,7 +3388,7 @@
             const appts = getAppointmentsForDoctor(did);
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">📅 My Appointments</h2><p class="section-subtitle">Manage your schedule</p></div></div>
-            <div id="doctorAppointmentsList">${appts.length===0?`<div style="text-align:center;padding:40px 0;color:var(--text-muted);"><i class="fas fa-calendar-alt" style="font-size:2.4rem;display:block;margin-bottom:12px;opacity:0.4;"></i><p>No appointments.</p></div>`:appts.sort((a,b)=>a.status==='upcoming'?-1:1).map(a=>{const p=paymentsData.find(p=>p.appointmentId===a.id);return `<div class="appointment-item"><div class="appointment-info"><div class="appt-avatar" style="background:var(--primary-50);display:flex;align-items:center;justify-content:center;color:var(--primary-600);font-weight:700;">${getPatientNameById(a.patientId).split(' ').map(n=>n[0]).join('')}</div><div class="appt-details"><h5>${getPatientNameById(a.patientId)}</h5><p><i class="far fa-calendar-alt"></i> ${formatDate(a.date)} at ${formatTime(a.time)}</p><p style="font-size:0.8rem;color:var(--text-muted);">${a.reason}</p>${p?`<p style="font-size:0.8rem;color:var(--text-muted);"><i class="fas fa-credit-card"></i> Payment: ${p.status==='paid'?'✅ Paid':'⏳ Pending'}</p>`:''}</div></div><div class="appointment-status">${getStatusBadge(a.status)}${a.status==='upcoming'?`<button class="btn btn-success btn-sm complete-appt-btn" data-id="${a.id}"><i class="fas fa-check"></i> Complete</button><button class="btn btn-danger btn-sm cancel-appt-btn" data-id="${a.id}"><i class="fas fa-times"></i> Cancel</button>`:''}${a.status==='completed'?`<button class="btn btn-primary btn-sm write-rx-btn" data-patient="${a.patientId}" data-doctor="${a.doctorId}"><i class="fas fa-prescription"></i> Rx</button>`:''}</div></div>`}).join('')}</div>`;
+            <div id="doctorAppointmentsList">${appts.length===0?`<div style="text-align:center;padding:40px 0;color:var(--text-muted);"><i class="fas fa-calendar-alt" style="font-size:2.4rem;display:block;margin-bottom:12px;opacity:0.4;"></i><p>No appointments.</p></div>`:appts.sort((a,b)=>a.status==='upcoming'?-1:1).map(a=>{const p=paymentsData.find(p=>p.appointmentId===a.id);return `<div class="appointment-item"><div class="appointment-info"><div class="appt-avatar" style="background:var(--primary-50);display:flex;align-items:center;justify-content:center;color:var(--primary-600);font-weight:700;">${getInitials(getPatientNameById(a.patientId))}</div><div class="appt-details"><h5>${getPatientNameById(a.patientId)}</h5><p><i class="far fa-calendar-alt"></i> ${formatDate(a.date)} at ${formatTime(a.time)}</p><p style="font-size:0.8rem;color:var(--text-muted);">${a.reason}</p>${p?`<p style="font-size:0.8rem;color:var(--text-muted);"><i class="fas fa-credit-card"></i> Payment: ${p.status==='paid'?'✅ Paid':'⏳ Pending'}</p>`:''}</div></div><div class="appointment-status">${getStatusBadge(a.status)}${a.status==='upcoming'?`<button class="btn btn-success btn-sm complete-appt-btn" data-id="${a.id}"><i class="fas fa-check"></i> Complete</button><button class="btn btn-danger btn-sm cancel-appt-btn" data-id="${a.id}"><i class="fas fa-times"></i> Cancel</button>`:''}${a.status==='completed'?`<button class="btn btn-primary btn-sm write-rx-btn" data-patient="${a.patientId}" data-doctor="${a.doctorId}"><i class="fas fa-prescription"></i> Rx</button>`:''}</div></div>`}).join('')}</div>`;
             el.querySelectorAll('.complete-appt-btn').forEach(b => b.addEventListener('click', () => { const id = parseInt(b
                     .dataset.id);
                 const appt = appointmentsData.find(a => a.id === id); if (appt) { appt.status = 'completed';
@@ -3496,7 +3411,7 @@
             const pids = [...new Set(appts.map(a => a.patientId))];
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">👥 My Patients</h2><p class="section-subtitle">Patients you have consulted</p></div></div>
-            <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Email</th><th>Appointments</th><th>Last Visit</th><th>Action</th></tr></thead><tbody>${pids.length===0?`<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:40px 0;">No patients.</td></tr>`:pids.map(pid=>{const pt=getUserById(pid);const pa=appts.filter(a=>a.patientId===pid);const last=pa.sort((a,b)=>b.id-a.id)[0];const av=pt?pt.avatarUrl||getPatientAvatar(pt.id):'';return `<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--primary-50);display:flex;align-items:center;justify-content:center;border:1px solid var(--border-color);">${av?`<img src="${av}" alt="${pt?pt.name:'Unknown'}" style="width:100%;height:100%;object-fit:cover;" />`:pt?pt.name.split(' ').map(n=>n[0]).join(''):'?'}</div><strong>${pt?pt.name:'Unknown'}</strong></div></td><td>${pt?pt.email:'N/A'}</td><td>${pa.length}</td><td>${last?formatDate(last.date):'N/A'}</td><td><button class="btn btn-primary btn-sm write-rx-from-patients" data-patient="${pid}" data-doctor="${did}"><i class="fas fa-prescription"></i> Rx</button></td></tr>`}).join('')}</tbody></table></div>`;
+            <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Email</th><th>Appointments</th><th>Last Visit</th><th>Action</th></tr></thead><tbody>${pids.length===0?`<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:40px 0;">No patients.</td></tr>`:pids.map(pid=>{const pt=getUserById(pid);const pa=appts.filter(a=>a.patientId===pid);const last=pa.sort((a,b)=>b.id-a.id)[0];return `<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--primary-50);display:flex;align-items:center;justify-content:center;border:1px solid var(--border-color);font-weight:600;font-size:0.8rem;">${pt?getInitials(pt.name):'?'}</div><strong>${pt?pt.name:'Unknown'}</strong></div></td><td>${pt?pt.email:'N/A'}</td><td>${pa.length}</td><td>${last?formatDate(last.date):'N/A'}</td><td><button class="btn btn-primary btn-sm write-rx-from-patients" data-patient="${pid}" data-doctor="${did}"><i class="fas fa-prescription"></i> Rx</button></td></tr>`}).join('')}</tbody></table></div>`;
             el.querySelectorAll('.write-rx-from-patients').forEach(b => b.addEventListener('click', () => { const pid =
                     parseInt(b.dataset.patient);
                 const did = parseInt(b.dataset.doctor);
@@ -3517,14 +3432,11 @@
 
         function renderDoctorProfile(el) {
             const d = currentUser;
-            const av = getUserAvatar(d.id);
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">👨‍⚕️ My Profile</h2><p class="section-subtitle">Manage your professional information</p></div><button class="btn btn-secondary btn-sm" onclick="exitModule()"><i class="fas fa-sign-out-alt"></i> Exit Module</button></div>
             <div style="max-width:600px;background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border-color);padding:24px;">
               <div style="display:flex;align-items:center;gap:20px;margin-bottom:20px;">
-                <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid var(--border-color);">
-                  <img src="${av || getDoctorAvatar(d.id)}" alt="${d.name}" style="width:100%;height:100%;object-fit:cover;" />
-                </div>
+                <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid var(--border-color);background:linear-gradient(135deg,var(--primary-100),var(--secondary-100));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--primary-600);font-weight:700;">${getInitials(d.name)}</div>
                 <div><h3 style="font-family:var(--font-heading);">${d.name}</h3><p style="color:var(--text-muted);">${d.email}</p><span class="badge badge-success">Doctor</span></div>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div><strong>Specialty</strong><br><span style="color:var(--text-muted);">${d.specialty}</span></div><div><strong>Location</strong><br><span style="color:var(--text-muted);">${d.location}</span></div><div><strong>Experience</strong><br><span style="color:var(--text-muted);">${d.experience} years</span></div><div><strong>Fee</strong><br><span style="color:var(--text-muted);">₹${d.fee}</span></div></div>
@@ -3562,13 +3474,11 @@
         }
 
         function renderAdminDoctors(el) {
-            // Use API for doctor list
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">👨‍⚕️ Manage Doctors</h2><p class="section-subtitle">Add, edit, or remove doctors</p></div><button class="btn btn-primary btn-sm" id="adminAddDoctorBtn"><i class="fas fa-plus"></i> Add Doctor</button></div>
             <div class="table-wrap" id="adminDoctorsTable">
               <div style="padding:20px;text-align:center;"><div class="spinner"></div></div>
             </div>`;
-            // Fetch and render in table
             fetchDoctorsFromAPI({}).then(doctors => {
                 const tableWrap = el.querySelector('#adminDoctorsTable');
                 if (!tableWrap) return;
@@ -3581,9 +3491,7 @@
                     html += `<tr>
                         <td>
                             <div style="display:flex;align-items:center;gap:10px;">
-                                <div style="width:36px;height:36px;border-radius:50%;overflow:hidden;border:1px solid var(--border-color);">
-                                    <img src="${d.avatarUrl}" alt="${d.name}" style="width:100%;height:100%;object-fit:cover;" />
-                                </div>
+                                <div style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-color);background:linear-gradient(135deg,var(--primary-100),var(--secondary-100));display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.8rem;color:var(--primary-700);">${getInitials(d.name)}</div>
                                 <div><strong>${d.name}</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">${d.id}</span></div>
                             </div>
                         </td>
@@ -3603,12 +3511,10 @@
                 html += `</tbody></table>`;
                 tableWrap.innerHTML = html;
 
-                // Attach event listeners (these will operate on local data, as we don't have API CRUD)
-                tableWrap.querySelector('#adminAddDoctorBtn')?.addEventListener('click', () => openDoctorModal());
+                el.querySelector('#adminAddDoctorBtn')?.addEventListener('click', () => openDoctorModal());
                 tableWrap.querySelectorAll('.admin-edit-doctor').forEach(b => {
                     b.addEventListener('click', () => {
                         const id = parseInt(b.dataset.id);
-                        // For now, we only have local users data, so we'll edit there
                         const doc = usersData.find(u => u.id === id && u.role === 'doctor');
                         if (doc) openDoctorModal(id);
                         else showToast('Doctor not found in local data.', 'error');
@@ -3645,7 +3551,7 @@
             const patients = usersData.filter(u => u.role === 'patient');
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">👥 Manage Patients</h2><p class="section-subtitle">View and manage patient accounts</p></div></div>
-            <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Email</th><th>Phone</th><th>Appointments</th><th>Action</th></tr></thead><tbody>${patients.map(p=>{const c=appointmentsData.filter(a=>a.patientId===p.id).length;const av=p.avatarUrl||getPatientAvatar(p.id);return `<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--primary-50);display:flex;align-items:center;justify-content:center;border:1px solid var(--border-color);">${av?`<img src="${av}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" />`:p.name.split(' ').map(n=>n[0]).join('')}</div><strong>${p.name}</strong></div></td><td>${p.email}</td><td>${p.phone||'N/A'}</td><td>${c}</td><td><button class="btn btn-danger btn-sm admin-delete-patient" data-id="${p.id}"><i class="fas fa-trash"></i></button></td></tr>`}).join('')}${patients.length===0?'<tr><td colspan="5" style="text-align:center;padding:40px 0;color:var(--text-muted);">No patients registered.</td></tr>':''}</tbody></table></div>`;
+            <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Email</th><th>Phone</th><th>Appointments</th><th>Action</th></tr></thead><tbody>${patients.map(p=>{const c=appointmentsData.filter(a=>a.patientId===p.id).length;return `<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--primary-50);display:flex;align-items:center;justify-content:center;border:1px solid var(--border-color);font-weight:600;font-size:0.8rem;">${getInitials(p.name)}</div><strong>${p.name}</strong></div></td><td>${p.email}</td><td>${p.phone||'N/A'}</td><td>${c}</td><td><button class="btn btn-danger btn-sm admin-delete-patient" data-id="${p.id}"><i class="fas fa-trash"></i></button></td></tr>`}).join('')}${patients.length===0?'<tr><td colspan="5" style="text-align:center;padding:40px 0;color:var(--text-muted);">No patients registered.</td></tr>':''}</tbody></table></div>`;
             el.querySelectorAll('.admin-delete-patient').forEach(b => b.addEventListener('click', () => { const id = parseInt(
                     b.dataset.id); if (confirm('Delete patient?')) { usersData = usersData.filter(u => u.id !== id);
                     appointmentsData = appointmentsData.filter(a => a.patientId !== id);
@@ -3658,7 +3564,7 @@
         function renderAdminAppointments(el) {
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">📅 All Appointments</h2><p class="section-subtitle">Overview of all appointments</p></div></div>
-            <div class="table-wrap"><table><thead><tr><th>Doctor</th><th>Patient</th><th>Date</th><th>Time</th><th>Status</th><th>Payment</th><th>Action</th></tr></thead><tbody>${appointmentsData.map(a=>{const p=paymentsData.find(p=>p.appointmentId===a.id);const pav=getPatientAvatarUrl(a.patientId);return `<tr><td>${getDoctorName(a.doctorId)}</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:30px;height:30px;border-radius:50%;overflow:hidden;background:var(--primary-50);display:flex;align-items:center;justify-content:center;border:1px solid var(--border-color);font-size:0.7rem;">${pav?`<img src="${pav}" alt="${getPatientNameById(a.patientId)}" style="width:100%;height:100%;object-fit:cover;" />`:getPatientNameById(a.patientId).split(' ').map(n=>n[0]).join('')}</div>${getPatientNameById(a.patientId)}</div></td><td>${formatDate(a.date)}</td><td>${formatTime(a.time)}</td><td>${getStatusBadge(a.status)}</td><td>${p?getPaymentStatusBadge(p.status):'<span class="badge badge-warning">No payment</span>'}</td><td><button class="btn btn-danger btn-sm admin-delete-appt" data-id="${a.id}"><i class="fas fa-trash"></i></button></td></tr>`}).join('')}${appointmentsData.length===0?'<tr><td colspan="7" style="text-align:center;padding:40px 0;color:var(--text-muted);">No appointments.</td></tr>':''}</tbody></table></div>`;
+            <div class="table-wrap"><table><thead><tr><th>Doctor</th><th>Patient</th><th>Date</th><th>Time</th><th>Status</th><th>Payment</th><th>Action</th></tr></thead><tbody>${appointmentsData.map(a=>{const p=paymentsData.find(p=>p.appointmentId===a.id);return `<tr><td>${getDoctorName(a.doctorId)}</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:30px;height:30px;border-radius:50%;overflow:hidden;background:var(--primary-50);display:flex;align-items:center;justify-content:center;border:1px solid var(--border-color);font-size:0.7rem;font-weight:600;">${getInitials(getPatientNameById(a.patientId))}</div>${getPatientNameById(a.patientId)}</div></td><td>${formatDate(a.date)}</td><td>${formatTime(a.time)}</td><td>${getStatusBadge(a.status)}</td><td>${p?getPaymentStatusBadge(p.status):'<span class="badge badge-warning">No payment</span>'}</td><td><button class="btn btn-danger btn-sm admin-delete-appt" data-id="${a.id}"><i class="fas fa-trash"></i></button></td></tr>`}).join('')}${appointmentsData.length===0?'<tr><td colspan="7" style="text-align:center;padding:40px 0;color:var(--text-muted);">No appointments.</td></tr>':''}</tbody></table></div>`;
             el.querySelectorAll('.admin-delete-appt').forEach(b => b.addEventListener('click', () => { const id = parseInt(b
                     .dataset.id); if (confirm('Delete appointment?')) { appointmentsData = appointmentsData.filter(a =>
                         a.id !== id);
@@ -3679,14 +3585,11 @@
 
         function renderAdminProfile(el) {
             const d = currentUser;
-            const av = getUserAvatar(d.id);
             el.innerHTML = `
             <div class="section-header"><div><h2 class="section-title">👤 My Profile</h2><p class="section-subtitle">Manage your account</p></div><button class="btn btn-secondary btn-sm" onclick="exitModule()"><i class="fas fa-sign-out-alt"></i> Exit Module</button></div>
             <div style="max-width:600px;background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border-color);padding:24px;">
               <div style="display:flex;align-items:center;gap:20px;margin-bottom:20px;">
-                <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid var(--border-color);">
-                  <img src="${av || 'https://i.pravatar.cc/150?img=3'}" alt="${d.name}" style="width:100%;height:100%;object-fit:cover;" />
-                </div>
+                <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid var(--border-color);background:linear-gradient(135deg,var(--primary-100),var(--secondary-100));display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--primary-600);font-weight:700;">${getInitials(d.name)}</div>
                 <div><h3 style="font-family:var(--font-heading);">${d.name}</h3><p style="color:var(--text-muted);">${d.email}</p><span class="badge badge-danger">Admin</span></div>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -3717,7 +3620,7 @@
         }
 
         // ============================================================
-        // PROFILE EDIT MODAL (unchanged)
+        // PROFILE EDIT MODAL
         // ============================================================
         function openEditProfileModal() {
             if (!currentUser) return;
@@ -3751,7 +3654,6 @@
             }
 
             body.innerHTML = html;
-            // Add save button if not exists
             if (!body.querySelector('#editProfileSaveBtn')) {
                 const btn = document.createElement('button');
                 btn.id = 'editProfileSaveBtn';
@@ -3865,21 +3767,19 @@
         }
 
         // ============================================================
-        // MODALS (unchanged except search/doctor list uses API)
+        // MODALS
         // ============================================================
         function openBookingModal(doctorId = null) {
             if (!isLoggedIn) { showToast('Please login first.', 'error');
                 openLoginModal(); return; }
             const select = document.getElementById('bookDoctorSelect');
             const patientSelect = document.getElementById('bookPatientSelect');
-            // Get doctors from cache or fetch fresh
             const fetchDoctorsForBooking = async () => {
                 let doctors = cachedDoctors;
                 if (!doctors) {
                     doctors = await fetchDoctorsFromAPI({});
                     cachedDoctors = doctors;
                 }
-                // Populate select
                 select.innerHTML = doctors.map(d =>
                     `<option value="${d.id}" ${d.id===doctorId?'selected':''} data-fee="${d.fee}">${d.name} — ${d.specialty} (₹${d.fee})</option>`
                 ).join('');
@@ -3951,7 +3851,6 @@
                     document.getElementById('bankSelect').value; if (!bank) { valid = false;
                         showToast('Select bank.', 'error'); } }
             if (!valid) return;
-            // Find doctor from cached list
             const doc = (cachedDoctors || []).find(d => d.id === doctorId);
             if (!doc) { showToast('Doctor not found.', 'error'); return; }
             const newAppt = { id: generateId(), doctorId: doc.id, patientId, date, time, status: 'upcoming', reason };
@@ -4072,8 +3971,7 @@
                     doc.available = available;
                     showToast('Doctor updated.', 'success'); } } else { if (usersData.find(u => u.email === email)) {
                     showToast('Email exists.', 'error'); return; } const newDoctor = { id: generateId(), name, email,
-                        password: 'password123', role: 'doctor', specialty, location, experience, fee, available,
-                        avatarUrl: getRandomAvatarUrl() };
+                        password: 'password123', role: 'doctor', specialty, location, experience, fee, available };
                 usersData.push(newDoctor);
                 showToast('Doctor added.', 'success'); }
             dom.doctorModal.classList.remove('active');
